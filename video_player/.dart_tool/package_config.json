@@ -153,25 +153,25 @@
     },
     {
       "name": "video_player_android",
-      "rootUri": "../../video_player_android",
+      "rootUri": "file:///C:/Users/MSOB7Y/AppData/Local/Pub/Cache/git/video_player_cache-7de6808b4406cc791ce125c1b763ac8b5b21e0d7/video_player_android",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "video_player_avfoundation",
-      "rootUri": "../../video_player_avfoundation",
+      "rootUri": "file:///C:/Users/MSOB7Y/AppData/Local/Pub/Cache/git/video_player_cache-7de6808b4406cc791ce125c1b763ac8b5b21e0d7/video_player_avfoundation",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "video_player_platform_interface",
-      "rootUri": "../../video_player_platform_interface",
+      "rootUri": "file:///C:/Users/MSOB7Y/AppData/Local/Pub/Cache/git/video_player_cache-7de6808b4406cc791ce125c1b763ac8b5b21e0d7/video_player_platform_interface",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "video_player_web",
-      "rootUri": "../../video_player_web",
+      "rootUri": "file:///C:/Users/MSOB7Y/AppData/Local/Pub/Cache/git/video_player_cache-7de6808b4406cc791ce125c1b763ac8b5b21e0d7/video_player_web",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -182,7 +182,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-09-22T14:06:01.833007Z",
+  "generated": "2023-09-23T19:48:37.295376Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

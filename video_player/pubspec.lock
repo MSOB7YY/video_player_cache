@@ -192,30 +192,38 @@ packages:
   video_player_android:
     dependency: "direct main"
     description:
-      path: "../video_player_android"
-      relative: true
-    source: path
+      path: video_player_android
+      ref: HEAD
+      resolved-ref: "7de6808b4406cc791ce125c1b763ac8b5b21e0d7"
+      url: "https://github.com/MSOB7YY/video_player_cache"
+    source: git
     version: "2.4.10"
   video_player_avfoundation:
     dependency: "direct main"
     description:
-      path: "../video_player_avfoundation"
-      relative: true
-    source: path
+      path: video_player_avfoundation
+      ref: HEAD
+      resolved-ref: "7de6808b4406cc791ce125c1b763ac8b5b21e0d7"
+      url: "https://github.com/MSOB7YY/video_player_cache"
+    source: git
     version: "2.4.10"
   video_player_platform_interface:
     dependency: "direct main"
     description:
-      path: "../video_player_platform_interface"
-      relative: true
-    source: path
+      path: video_player_platform_interface
+      ref: HEAD
+      resolved-ref: "7de6808b4406cc791ce125c1b763ac8b5b21e0d7"
+      url: "https://github.com/MSOB7YY/video_player_cache"
+    source: git
     version: "6.2.1"
   video_player_web:
     dependency: "direct main"
     description:
-      path: "../video_player_web"
-      relative: true
-    source: path
+      path: video_player_web
+      ref: HEAD
+      resolved-ref: "7de6808b4406cc791ce125c1b763ac8b5b21e0d7"
+      url: "https://github.com/MSOB7YY/video_player_cache"
+    source: git
     version: "2.1.0"
 sdks:
   dart: ">=3.0.5 <4.0.0"
