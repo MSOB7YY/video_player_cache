@@ -22,7 +22,8 @@ dependencies:
     sdk: flutter
   video_player_platform_interface:
     git:
-      url: https://github.com/MSOB7YY/video_player_cache/video_player_platform_interface
+      url: https://github.com/MSOB7YY/video_player_cache
+      path: video_player_platform_interface/
 
 dev_dependencies:
   flutter_test:

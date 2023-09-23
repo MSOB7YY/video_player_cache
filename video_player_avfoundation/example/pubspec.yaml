@@ -17,7 +17,9 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
   video_player_platform_interface:
-    path: ../../video_player_platform_interface
+    git:
+      url: https://github.com/MSOB7YY/video_player_cache
+      path: video_player_platform_interface
 
 dev_dependencies:
   flutter_test:

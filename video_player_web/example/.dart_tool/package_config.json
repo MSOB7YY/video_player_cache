@@ -183,7 +183,7 @@
     },
     {
       "name": "video_player_platform_interface",
-      "rootUri": "../../../video_player_platform_interface",
+      "rootUri": "file:///C:/Users/MSOB7Y/AppData/Local/Pub/Cache/git/video_player_cache-b76c63a91cfbcf4722826a0354379796b4e866c9/video_player_platform_interface",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -212,7 +212,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-09-22T14:06:37.644377Z",
+  "generated": "2023-09-23T19:46:40.574335Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }
