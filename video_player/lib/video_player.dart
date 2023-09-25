@@ -14,7 +14,13 @@ import 'package:video_player_platform_interface/video_player_platform_interface.
 import 'src/closed_caption_file.dart';
 
 export 'package:video_player_platform_interface/video_player_platform_interface.dart'
-    show DurationRange, DataSourceType, VideoFormat, VideoPlayerOptions;
+    show
+        DurationRange,
+        DataSourceType,
+        VideoFormat,
+        VideoPlayerOptions,
+        BufferOptions,
+        ByteSize;
 
 export 'src/closed_caption_file.dart';
 
@@ -259,19 +265,21 @@ class VideoPlayerValue {
 ///
 /// After [dispose] all further calls are ignored.
 class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
-  static const _kDefaultMaxSingleFileCacheSize = 100 * 1024 * 1024;
-  static const _kDefaultMaxTotalCacheSize = 1 * 1024 * 1024 * 1024;
+  static const _kDefaultMaxSingleFileCacheSize = ByteSize(mb: 100);
+  static const _kDefaultMaxTotalCacheSize = ByteSize(gb: 1);
 
   /// Constructs a [VideoPlayerController] playing a video from an asset.
   ///
   /// The name of the asset is given by the [dataSource] argument and must not be
   /// null. The [package] argument must be non-null when the asset comes from a
   /// package and null otherwise.
-  VideoPlayerController.asset(this.dataSource,
-      {this.package,
-      Future<ClosedCaptionFile>? closedCaptionFile,
-      this.videoPlayerOptions})
-      : _closedCaptionFileFuture = closedCaptionFile,
+  VideoPlayerController.asset(
+    this.dataSource, {
+    this.package,
+    Future<ClosedCaptionFile>? closedCaptionFile,
+    this.videoPlayerOptions,
+    this.bufferOptions,
+  })  : _closedCaptionFileFuture = closedCaptionFile,
         dataSourceType = DataSourceType.asset,
         formatHint = null,
         httpHeaders = const <String, String>{},
@@ -297,6 +305,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     this.formatHint,
     Future<ClosedCaptionFile>? closedCaptionFile,
     this.videoPlayerOptions,
+    this.bufferOptions,
     this.httpHeaders = const <String, String>{},
     this.enableCaching = true,
     this.cacheDirectory,
@@ -322,6 +331,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     this.formatHint,
     Future<ClosedCaptionFile>? closedCaptionFile,
     this.videoPlayerOptions,
+    this.bufferOptions,
     this.httpHeaders = const <String, String>{},
     this.enableCaching = true,
     this.cacheDirectory,
@@ -341,6 +351,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   VideoPlayerController.file(File file,
       {Future<ClosedCaptionFile>? closedCaptionFile,
       this.videoPlayerOptions,
+      this.bufferOptions,
       this.httpHeaders = const <String, String>{}})
       : _closedCaptionFileFuture = closedCaptionFile,
         dataSource = Uri.file(file.absolute.path).toString(),
@@ -358,9 +369,12 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   ///
   /// This will load the video from the input content-URI.
   /// This is supported on Android only.
-  VideoPlayerController.contentUri(Uri contentUri,
-      {Future<ClosedCaptionFile>? closedCaptionFile, this.videoPlayerOptions})
-      : assert(defaultTargetPlatform == TargetPlatform.android,
+  VideoPlayerController.contentUri(
+    Uri contentUri, {
+    Future<ClosedCaptionFile>? closedCaptionFile,
+    this.videoPlayerOptions,
+    this.bufferOptions,
+  })  : assert(defaultTargetPlatform == TargetPlatform.android,
             'VideoPlayerController.contentUri is only supported on Android.'),
         _closedCaptionFileFuture = closedCaptionFile,
         dataSource = contentUri.toString(),
@@ -394,13 +408,13 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   /// **Only works with exoplayer cache system, i.e. when [cacheDirectory] == null**
   ///
   /// defaults to 100 MB.
-  final int maxSingleFileCacheSize;
+  final ByteSize maxSingleFileCacheSize;
 
   /// **Android Only**:
   /// Total Cache Size for all files in bytes.
   ///
   /// defaults to 1 GB.
-  final int maxTotalCacheSize;
+  final ByteSize maxTotalCacheSize;
 
   /// **Android Only**
   ///
@@ -427,6 +441,9 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
 
   /// Provide additional configuration options (optional). Like setting the audio mode to mix
   final VideoPlayerOptions? videoPlayerOptions;
+
+  /// Provide optional buffer options.
+  final BufferOptions? bufferOptions;
 
   /// Only set for [asset] videos. The package that the asset was loaded from.
   final String? package;
@@ -468,6 +485,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           package: package,
           maxSingleFileCacheSize: maxSingleFileCacheSize,
           maxTotalCacheSize: maxTotalCacheSize,
+          bufferOptions: bufferOptions,
         );
         break;
       case DataSourceType.network:
@@ -476,6 +494,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           uri: dataSource,
           formatHint: formatHint,
           httpHeaders: httpHeaders,
+          bufferOptions: bufferOptions,
           enableCaching: true,
           cacheKey: cacheKey,
           cacheDirectory: cacheDirectory,
@@ -488,6 +507,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           sourceType: DataSourceType.file,
           uri: dataSource,
           httpHeaders: httpHeaders,
+          bufferOptions: bufferOptions,
           maxSingleFileCacheSize: maxSingleFileCacheSize,
           maxTotalCacheSize: maxTotalCacheSize,
         );
@@ -498,6 +518,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           uri: dataSource,
           maxSingleFileCacheSize: maxSingleFileCacheSize,
           maxTotalCacheSize: maxTotalCacheSize,
+          bufferOptions: bufferOptions,
         );
         break;
     }

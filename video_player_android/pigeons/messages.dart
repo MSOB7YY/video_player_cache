@@ -49,6 +49,7 @@ class CreateMessage {
   String? packageName;
   String? formatHint;
   Map<String?, String?> httpHeaders;
+  Map<String?, dynamic>? bufferOptions;
   bool? enableCaching;
   String? cacheKey;
   String? cacheDirectory;

@@ -37,6 +37,7 @@ class AndroidVideoPlayer extends VideoPlayerPlatform {
     String? uri;
     String? formatHint;
     Map<String, String> httpHeaders = <String, String>{};
+    final bufferOptions = dataSource.bufferOptions?.toMap();
     bool enableCaching = true;
     String? cacheKey;
     String? cacheDirectory;
@@ -54,8 +55,8 @@ class AndroidVideoPlayer extends VideoPlayerPlatform {
         enableCaching = dataSource.enableCaching;
         cacheKey = dataSource.cacheKey;
         cacheDirectory = dataSource.cacheDirectory?.path;
-        maxSingleFileCacheSize = dataSource.maxSingleFileCacheSize;
-        maxTotalCacheSize = dataSource.maxTotalCacheSize;
+        maxSingleFileCacheSize = dataSource.maxSingleFileCacheSize?.totalBytes;
+        maxTotalCacheSize = dataSource.maxTotalCacheSize?.totalBytes;
         break;
       case DataSourceType.file:
         uri = dataSource.uri;
@@ -70,6 +71,7 @@ class AndroidVideoPlayer extends VideoPlayerPlatform {
       packageName: packageName,
       uri: uri,
       httpHeaders: httpHeaders,
+      bufferOptions: bufferOptions,
       formatHint: formatHint,
       enableCaching: enableCaching,
       cacheKey: cacheKey,

@@ -138,6 +138,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, AndroidVideoPlayerApi {
       } else {
         assetLookupKey = flutterState.keyForAsset.get(arg.getAsset());
       }
+      Map<String, Object> bufferOptions = arg.getBufferOptions();
       player = new VideoPlayer(
           flutterState.applicationContext,
           eventChannel,
@@ -145,6 +146,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, AndroidVideoPlayerApi {
           "asset:///" + assetLookupKey,
           null,
           new HashMap<>(),
+          bufferOptions,
           arg.getEnableCaching(),
           arg.getCacheKey(),
           arg.getCacheDirectory(),
@@ -153,6 +155,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, AndroidVideoPlayerApi {
           options);
     } else {
       Map<String, String> httpHeaders = arg.getHttpHeaders();
+      Map<String, Object> bufferOptions = arg.getBufferOptions();
       player = new VideoPlayer(
           flutterState.applicationContext,
           eventChannel,
@@ -160,6 +163,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, AndroidVideoPlayerApi {
           arg.getUri(),
           arg.getFormatHint(),
           httpHeaders,
+          bufferOptions,
           arg.getEnableCaching(),
           arg.getCacheKey(),
           arg.getCacheDirectory(),

@@ -194,7 +194,7 @@ packages:
     description:
       path: video_player_android
       ref: HEAD
-      resolved-ref: "40d4f6596db70e8b0928c4b51ec7773e033ebcb9"
+      resolved-ref: "9576622a2ddb90c560635ecc939f312c87aef794"
       url: "https://github.com/MSOB7YY/video_player_cache"
     source: git
     version: "2.4.10"
@@ -203,7 +203,7 @@ packages:
     description:
       path: video_player_avfoundation
       ref: HEAD
-      resolved-ref: "7de6808b4406cc791ce125c1b763ac8b5b21e0d7"
+      resolved-ref: "9576622a2ddb90c560635ecc939f312c87aef794"
       url: "https://github.com/MSOB7YY/video_player_cache"
     source: git
     version: "2.4.10"
@@ -212,7 +212,7 @@ packages:
     description:
       path: video_player_platform_interface
       ref: HEAD
-      resolved-ref: "7de6808b4406cc791ce125c1b763ac8b5b21e0d7"
+      resolved-ref: "9576622a2ddb90c560635ecc939f312c87aef794"
       url: "https://github.com/MSOB7YY/video_player_cache"
     source: git
     version: "6.2.1"
@@ -221,7 +221,7 @@ packages:
     description:
       path: video_player_web
       ref: HEAD
-      resolved-ref: "7de6808b4406cc791ce125c1b763ac8b5b21e0d7"
+      resolved-ref: "9576622a2ddb90c560635ecc939f312c87aef794"
       url: "https://github.com/MSOB7YY/video_player_cache"
     source: git
     version: "2.1.0"

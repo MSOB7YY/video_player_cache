@@ -178,7 +178,7 @@ packages:
     description:
       path: video_player_platform_interface
       ref: HEAD
-      resolved-ref: b76c63a91cfbcf4722826a0354379796b4e866c9
+      resolved-ref: "9576622a2ddb90c560635ecc939f312c87aef794"
       url: "https://github.com/MSOB7YY/video_player_cache"
     source: git
     version: "6.2.1"

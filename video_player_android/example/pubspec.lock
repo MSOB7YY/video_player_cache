@@ -489,11 +489,9 @@ packages:
   video_player_platform_interface:
     dependency: "direct main"
     description:
-      path: video_player_platform_interface
-      ref: HEAD
-      resolved-ref: b76c63a91cfbcf4722826a0354379796b4e866c9
-      url: "https://github.com/MSOB7YY/video_player_cache"
-    source: git
+      path: "../../video_player_platform_interface"
+      relative: true
+    source: path
     version: "6.2.1"
   vm_service:
     dependency: transitive

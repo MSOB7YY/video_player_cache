@@ -77,6 +77,9 @@ class FakeController extends ValueNotifier<VideoPlayerValue>
   VideoPlayerOptions? get videoPlayerOptions => null;
 
   @override
+  BufferOptions? get bufferOptions => null;
+
+  @override
   void setCaptionOffset(Duration delay) {}
 
   @override
@@ -94,10 +97,10 @@ class FakeController extends ValueNotifier<VideoPlayerValue>
   bool get enableCaching => true;
 
   @override
-  int get maxSingleFileCacheSize => 100 * 1024 * 1024;
+  ByteSize get maxSingleFileCacheSize => ByteSize(mb: 100);
 
   @override
-  int get maxTotalCacheSize => 1 * 1024 * 1024 * 1024;
+  ByteSize get maxTotalCacheSize => ByteSize(gb: 1);
 }
 
 Future<ClosedCaptionFile> _loadClosedCaption() async =>

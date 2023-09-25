@@ -143,11 +143,12 @@ class CreateMessage {
     this.packageName,
     this.formatHint,
     required this.httpHeaders,
-    required this.enableCaching,
+    this.enableCaching = true,
     this.cacheKey,
     this.cacheDirectory,
     this.maxSingleFileCacheSize,
     this.maxTotalCacheSize,
+    this.bufferOptions,
   });
 
   String? asset;
@@ -160,7 +161,9 @@ class CreateMessage {
 
   Map<String?, String?> httpHeaders;
 
-  bool enableCaching = true;
+  Map<String?, dynamic>? bufferOptions;
+
+  bool enableCaching;
 
   String? cacheKey;
 
@@ -177,6 +180,7 @@ class CreateMessage {
       packageName,
       formatHint,
       httpHeaders,
+      bufferOptions,
       enableCaching,
       cacheKey,
       cacheDirectory,
@@ -194,11 +198,13 @@ class CreateMessage {
       formatHint: result[3] as String?,
       httpHeaders:
           (result[4] as Map<Object?, Object?>?)!.cast<String?, String?>(),
-      enableCaching: result[5] as bool? ?? true,
-      cacheKey: result[6] as String?,
-      cacheDirectory: result[7] as String?,
-      maxSingleFileCacheSize: result[8] as int?,
-      maxTotalCacheSize: result[9] as int?,
+      bufferOptions:
+          (result[5] as Map<Object?, Object?>?)!.cast<String?, int?>(),
+      enableCaching: result[6] as bool? ?? true,
+      cacheKey: result[7] as String?,
+      cacheDirectory: result[8] as String?,
+      maxSingleFileCacheSize: result[9] as int?,
+      maxTotalCacheSize: result[10] as int?,
     );
   }
 }

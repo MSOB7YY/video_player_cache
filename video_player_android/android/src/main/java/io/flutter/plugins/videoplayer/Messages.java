@@ -527,6 +527,16 @@ public class Messages {
       this.httpHeaders = setterArg;
     }
 
+    private @NonNull Map<String, Object> bufferOptions;
+
+    public @NonNull Map<String, Object> getBufferOptions() {
+      return bufferOptions;
+    }
+
+    public void setBufferOptions(@NonNull Map<String, Object> setterArg) {
+      this.bufferOptions = setterArg;
+    }
+
     /** Constructor is non-public to enforce null safety; use Builder. */
     CreateMessage() {
     }
@@ -565,6 +575,13 @@ public class Messages {
 
       public @NonNull Builder setHttpHeaders(@NonNull Map<String, String> setterArg) {
         this.httpHeaders = setterArg;
+        return this;
+      }
+
+      private @Nullable Map<String, Object> bufferOptions;
+
+      public @NonNull Builder setBufferOptions(@NonNull Map<String, Object> setterArg) {
+        this.bufferOptions = setterArg;
         return this;
       }
 
@@ -610,6 +627,7 @@ public class Messages {
         pigeonReturn.setPackageName(packageName);
         pigeonReturn.setFormatHint(formatHint);
         pigeonReturn.setHttpHeaders(httpHeaders);
+        pigeonReturn.setBufferOptions(bufferOptions);
         pigeonReturn.setEnableCaching(enableCaching);
         pigeonReturn.setCacheKey(cacheKey);
         pigeonReturn.setCacheDirectory(cacheDirectory);
@@ -621,12 +639,13 @@ public class Messages {
 
     @NonNull
     ArrayList<Object> toList() {
-      ArrayList<Object> toListResult = new ArrayList<Object>(10);
+      ArrayList<Object> toListResult = new ArrayList<Object>(11);
       toListResult.add(asset);
       toListResult.add(uri);
       toListResult.add(packageName);
       toListResult.add(formatHint);
       toListResult.add(httpHeaders);
+      toListResult.add(bufferOptions);
       toListResult.add(enableCaching);
       toListResult.add(cacheKey);
       toListResult.add(cacheDirectory);
@@ -647,17 +666,19 @@ public class Messages {
       pigeonResult.setFormatHint((String) formatHint);
       Object httpHeaders = list.get(4);
       pigeonResult.setHttpHeaders((Map<String, String>) httpHeaders);
-      if (list.size() >= 6) {
-        Object enableCaching = list.get(5);
+      Object bufferOptions = list.get(5);
+      pigeonResult.setBufferOptions((Map<String, Object>) bufferOptions);
+      if (list.size() >= 7) {
+        Object enableCaching = list.get(6);
         pigeonResult.setEnableCaching((boolean) enableCaching);
-        Object cacheKey = list.get(6);
+        Object cacheKey = list.get(7);
         pigeonResult.setCacheKey((String) cacheKey);
-        Object cacheDirectory = list.get(7);
+        Object cacheDirectory = list.get(8);
         pigeonResult.setCacheDirectory((String) cacheDirectory);
-        Object maxSingleFileCacheSize = list.get(8);
+        Object maxSingleFileCacheSize = list.get(9);
         pigeonResult.setMaxSingleFileCacheSize(
             maxSingleFileCacheSize == null ? null : ((Number) maxSingleFileCacheSize).longValue());
-        Object maxTotalCacheSize = list.get(9);
+        Object maxTotalCacheSize = list.get(10);
         pigeonResult.setMaxTotalCacheSize(maxTotalCacheSize == null ? null : ((Number) maxTotalCacheSize).longValue());
       }
 

@@ -27,9 +27,7 @@ import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.source.smoothstreaming.DefaultSsChunkSource;
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSource;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
+import com.google.android.exoplayer2.upstream.*;
 import com.google.android.exoplayer2.util.Util;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.view.TextureRegistry;
@@ -72,6 +70,7 @@ final class VideoPlayer {
             String dataSource,
             String formatHint,
             @NonNull Map<String, String> httpHeaders,
+            @Nullable Map<String, Object> bufferOptions,
             boolean enableCaching,
             @Nullable String cacheKey,
             @Nullable String cacheDirectory,
@@ -82,7 +81,7 @@ final class VideoPlayer {
         this.textureEntry = textureEntry;
         this.options = options;
 
-        final ExoPlayer exoPlayer = new ExoPlayer.Builder(context).build();
+        final ExoPlayer exoPlayer = buildExoPlayer(context, bufferOptions);
         buildHttpDataSourceFactory(httpHeaders);
         DataSource.Factory dataSourceFactory;
 
@@ -118,6 +117,67 @@ final class VideoPlayer {
         exoPlayer.prepare();
 
         setUpVideoPlayer(exoPlayer, new QueuingEventSink());
+    }
+
+    ExoPlayer buildExoPlayer(Context context, @Nullable Map<String, Object> bufferOptions) {
+        if (bufferOptions == null || bufferOptions.isEmpty()) {
+            return new ExoPlayer.Builder(context).build();
+        } else {
+
+            final Number minBufferMSMap = (Number) bufferOptions.get("minBufferMS");
+            final Long minBufferMS = minBufferMSMap != null ? minBufferMSMap.longValue() : DefaultLoadControl.DEFAULT_MIN_BUFFER_MS;
+
+            final Number maxBufferMSMap = (Number) bufferOptions.get("maxBufferMS");
+            final Long maxBufferMS = maxBufferMSMap != null ? maxBufferMSMap.longValue() : DefaultLoadControl.DEFAULT_MAX_BUFFER_MS;
+
+            final Number bufferForPlaybackMSMap = (Number) bufferOptions.get("bufferForPlaybackMS");
+            final Long bufferForPlaybackMS = bufferForPlaybackMSMap != null ? bufferForPlaybackMSMap.longValue()
+                    : DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS;
+
+            final Number bufferForPlaybackAfterRebufferMSMap = (Number) bufferOptions
+                    .get("bufferForPlaybackAfterRebufferMS");
+            final Long bufferForPlaybackAfterRebufferMS = bufferForPlaybackAfterRebufferMSMap != null
+                    ? bufferForPlaybackAfterRebufferMSMap.longValue()
+                    : DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS;
+
+            final Boolean prioritizeTimeOverSizeThresholdsMap = (Boolean) bufferOptions
+                    .get("prioritizeTimeOverSizeThresholds");
+            final boolean prioritizeTimeOverSizeThresholds = prioritizeTimeOverSizeThresholdsMap != null
+                    ? prioritizeTimeOverSizeThresholdsMap
+                    : DefaultLoadControl.DEFAULT_PRIORITIZE_TIME_OVER_SIZE_THRESHOLDS;
+
+            final Number backwardBufferDurationMSMap = (Number) bufferOptions.get("backwardBufferDurationMS");
+            final Long backwardBufferDurationMS = backwardBufferDurationMSMap != null ? backwardBufferDurationMSMap.longValue()
+                    : DefaultLoadControl.DEFAULT_BACK_BUFFER_DURATION_MS;
+
+            final Boolean retainBackwardBufferFromKeyframeMap = (Boolean) bufferOptions
+                    .get("retainBackwardBufferFromKeyframe");
+            final boolean retainBackwardBufferFromKeyframe = retainBackwardBufferFromKeyframeMap != null
+                    ? retainBackwardBufferFromKeyframeMap
+                    : DefaultLoadControl.DEFAULT_RETAIN_BACK_BUFFER_FROM_KEYFRAME;
+
+            final Number targetBuffer = (Number) bufferOptions.get("targetBuffer");
+            final Number bufferSegmentSize = (Number) bufferOptions.get("bufferSegmentSize");
+            final Boolean trimOnReset = (Boolean) bufferOptions.get("trimOnReset");
+            final DefaultAllocator alloc = new DefaultAllocator(trimOnReset != null ? trimOnReset : true, bufferSegmentSize != null ? bufferSegmentSize.intValue() : C.DEFAULT_BUFFER_SEGMENT_SIZE);
+            if (targetBuffer != null) {
+                alloc.setTargetBufferSize(targetBuffer.intValue());
+            }
+            DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
+                    .setBufferDurationsMs(
+                            minBufferMS.intValue(),
+                            maxBufferMS.intValue(),
+                            bufferForPlaybackMS.intValue(),
+                            bufferForPlaybackAfterRebufferMS.intValue())
+                    .setTargetBufferBytes(targetBuffer != null ? targetBuffer.intValue()
+                            : DefaultLoadControl.DEFAULT_TARGET_BUFFER_BYTES)
+                    .setAllocator(alloc)
+                    .setBackBuffer(backwardBufferDurationMS.intValue(), retainBackwardBufferFromKeyframe)
+                    .setPrioritizeTimeOverSizeThresholds(prioritizeTimeOverSizeThresholds)
+                    .build();
+            return new ExoPlayer.Builder(context).setLoadControl(loadControl).build();
+        }
+
     }
 
     // Constructor used to directly test members of this class.

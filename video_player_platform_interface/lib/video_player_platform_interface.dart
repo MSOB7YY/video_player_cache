@@ -129,13 +129,14 @@ class DataSource {
   ///
   /// The [package] argument must be non-null when the asset comes from a
   /// package and null otherwise.
-  DataSource({
+  const DataSource({
     required this.sourceType,
     this.uri,
     this.formatHint,
     this.asset,
     this.package,
     this.httpHeaders = const <String, String>{},
+    this.bufferOptions,
     this.enableCaching = true,
     this.cacheKey,
     this.cacheDirectory,
@@ -162,7 +163,9 @@ class DataSource {
   /// HTTP headers used for the request to the [uri].
   /// Only for [DataSourceType.network] videos.
   /// Always empty for other video types.
-  Map<String, String> httpHeaders;
+  final Map<String, String> httpHeaders;
+
+  final BufferOptions? bufferOptions;
 
   final bool enableCaching;
 
@@ -170,9 +173,9 @@ class DataSource {
 
   final Directory? cacheDirectory;
 
-  final int? maxSingleFileCacheSize;
+  final ByteSize? maxSingleFileCacheSize;
 
-  final int? maxTotalCacheSize;
+  final ByteSize? maxTotalCacheSize;
 
   /// The name of the asset. Only set for [DataSourceType.asset] videos.
   final String? asset;
@@ -411,6 +414,102 @@ class VideoPlayerOptions {
 
   /// Additional web controls
   final VideoPlayerWebOptions? webOptions;
+}
+
+@immutable
+class ByteSize {
+  final int bytes;
+  final int kb;
+  final int mb;
+  final int gb;
+  final int tb;
+
+  const ByteSize({
+    this.bytes = 0,
+    this.kb = 0,
+    this.mb = 0,
+    this.gb = 0,
+    this.tb = 0,
+  });
+
+  int get totalBytes {
+    int b = 0;
+    b += bytes;
+    b += kb * 1024;
+    b += mb * 1024 * 1024;
+    b += gb * 1024 * 1024 * 1024;
+    b += tb * 1024 * 1024 * 1024 * 1024;
+    return b;
+  }
+}
+
+/// [BufferOptions] can be optionally used to set custom buffer options.
+@immutable
+class BufferOptions {
+  /// Set additional optional player buffer settings
+  const BufferOptions({
+    this.minBuffer = const Duration(seconds: 50),
+    this.maxBuffer = const Duration(seconds: 50),
+    this.bufferForPlayback = const Duration(seconds: 2, milliseconds: 500),
+    this.bufferForPlaybackAfterRebuffer = const Duration(seconds: 5),
+    this.targetBuffer,
+    this.prioritizeTimeOverSizeThresholds = false,
+    this.backwardBufferDuration = Duration.zero,
+    this.retainBackwardBufferFromKeyframe = false,
+    this.bufferSegmentSize = const ByteSize(kb: 64),
+    this.trimOnReset = true,
+  });
+
+  /// The default minimum duration of media that the player will attempt to ensure is buffered at all
+  /// times.
+  final Duration minBuffer;
+
+  /// The default maximum duration of media that the player will attempt to buffer.
+  final Duration maxBuffer;
+
+  /// The default duration of media that must be buffered for playback to start or resume following a
+  /// user action such as a seek.
+  final Duration bufferForPlayback;
+
+  /// The default duration of media that must be buffered for playback to resume after a rebuffer.
+  /// A rebuffer is defined to be caused by buffer depletion rather than a user action.
+  final Duration bufferForPlaybackAfterRebuffer;
+
+  /// The default target buffer size in bytes. null means that the load
+  /// control will calculate the target buffer size based on the selected tracks.
+  final ByteSize? targetBuffer;
+
+  /// The default prioritization of buffer time constraints over size constraints.
+  final bool prioritizeTimeOverSizeThresholds;
+
+  /// The default back buffer duration.
+  final Duration backwardBufferDuration;
+
+  /// The default for whether the back buffer is retained from the previous keyframe.
+  final bool retainBackwardBufferFromKeyframe;
+
+  /// A default size in bytes for an individual allocation that forms part of a larger buffer.
+  final ByteSize bufferSegmentSize;
+
+  /// Whether memory is freed when the allocator is reset. Should be true unless
+  /// the allocator will be re-used by multiple player instances.
+  final bool trimOnReset;
+
+  Map<String, dynamic> toMap() {
+    return {
+      "minBufferMS": minBuffer.inMilliseconds,
+      "maxBufferMS": maxBuffer.inMilliseconds,
+      "bufferForPlaybackMS": bufferForPlayback.inMilliseconds,
+      "bufferForPlaybackAfterRebufferMS":
+          bufferForPlaybackAfterRebuffer.inMilliseconds,
+      "targetBuffer": targetBuffer?.totalBytes,
+      "prioritizeTimeOverSizeThresholds": prioritizeTimeOverSizeThresholds,
+      "backwardBufferDurationMS": backwardBufferDuration.inMilliseconds,
+      "retainBackwardBufferFromKeyframe": retainBackwardBufferFromKeyframe,
+      "bufferSegmentSize": bufferSegmentSize.totalBytes,
+      "trimOnReset": trimOnReset,
+    };
+  }
 }
 
 /// [VideoPlayerWebOptions] can be optionally used to set additional web settings
