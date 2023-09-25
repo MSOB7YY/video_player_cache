@@ -49,6 +49,11 @@ class CreateMessage {
   String? packageName;
   String? formatHint;
   Map<String?, String?> httpHeaders;
+  bool? enableCaching;
+  String? cacheKey;
+  String? cacheDirectory;
+  int? maxSingleFileCacheSize;
+  int? maxTotalCacheSize;
 }
 
 class MixWithOthersMessage {

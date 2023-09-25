@@ -494,23 +494,23 @@ public class Messages {
       this.cacheDirectory = setterArg;
     }
 
-    private @Nullable Integer maxSingleFileCacheSize;
+    private @Nullable Long maxSingleFileCacheSize;
 
-    public @Nullable Integer getMaxSingleFileCacheSize() {
+    public @Nullable Long getMaxSingleFileCacheSize() {
       return maxSingleFileCacheSize;
     }
 
-    public void setMaxSingleFileCacheSize(@Nullable Integer setterArg) {
+    public void setMaxSingleFileCacheSize(@Nullable Long setterArg) {
       this.maxSingleFileCacheSize = setterArg;
     }
 
-    private @Nullable Integer maxTotalCacheSize;
+    private @Nullable Long maxTotalCacheSize;
 
-    public @Nullable Integer getMaxTotalCacheSize() {
+    public @Nullable Long getMaxTotalCacheSize() {
       return maxTotalCacheSize;
     }
 
-    public void setMaxTotalCacheSize(@Nullable Integer setterArg) {
+    public void setMaxTotalCacheSize(@Nullable Long setterArg) {
       this.maxTotalCacheSize = setterArg;
     }
 
@@ -589,16 +589,16 @@ public class Messages {
         return this;
       }
 
-      private @Nullable Integer maxSingleFileCacheSize;
+      private @Nullable Long maxSingleFileCacheSize;
 
-      public @NonNull Builder setMaxSingleFileCacheSize(@NonNull Integer setterArg) {
+      public @NonNull Builder setMaxSingleFileCacheSize(@NonNull Long setterArg) {
         this.maxSingleFileCacheSize = setterArg;
         return this;
       }
 
-      private @Nullable Integer maxTotalCacheSize;
+      private @Nullable Long maxTotalCacheSize;
 
-      public @NonNull Builder setMaxTotalCacheSize(@NonNull Integer setterArg) {
+      public @NonNull Builder setMaxTotalCacheSize(@NonNull Long setterArg) {
         this.maxTotalCacheSize = setterArg;
         return this;
       }
@@ -621,7 +621,7 @@ public class Messages {
 
     @NonNull
     ArrayList<Object> toList() {
-      ArrayList<Object> toListResult = new ArrayList<Object>(7);
+      ArrayList<Object> toListResult = new ArrayList<Object>(10);
       toListResult.add(asset);
       toListResult.add(uri);
       toListResult.add(packageName);
@@ -655,9 +655,10 @@ public class Messages {
         Object cacheDirectory = list.get(7);
         pigeonResult.setCacheDirectory((String) cacheDirectory);
         Object maxSingleFileCacheSize = list.get(8);
-        pigeonResult.setMaxSingleFileCacheSize((Integer) maxSingleFileCacheSize);
+        pigeonResult.setMaxSingleFileCacheSize(
+            maxSingleFileCacheSize == null ? null : ((Number) maxSingleFileCacheSize).longValue());
         Object maxTotalCacheSize = list.get(9);
-        pigeonResult.setMaxTotalCacheSize((Integer) maxTotalCacheSize);
+        pigeonResult.setMaxTotalCacheSize(maxTotalCacheSize == null ? null : ((Number) maxTotalCacheSize).longValue());
       }
 
       return pigeonResult;

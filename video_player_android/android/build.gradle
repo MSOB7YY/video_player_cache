@@ -55,7 +55,6 @@ android {
         implementation "com.google.android.exoplayer:exoplayer-hls:${exoplayer_version}"
         implementation "com.google.android.exoplayer:exoplayer-dash:${exoplayer_version}"
         implementation "com.google.android.exoplayer:exoplayer-smoothstreaming:${exoplayer_version}"
-        implementation 'com.danikula:videocache:2.7.1' // for video caching.
         testImplementation 'junit:junit:4.13.2'
         testImplementation 'androidx.test:core:1.3.0'
         testImplementation 'org.mockito:mockito-inline:5.0.0'

@@ -13,14 +13,11 @@ import android.view.Surface;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import android.util.Log;
+
 import com.danikula.videocache.HttpProxyCacheServer;
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.PlaybackException;
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.Player;
+
+import com.google.android.exoplayer2.*;
 import com.google.android.exoplayer2.Player.Listener;
 import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -78,14 +75,14 @@ final class VideoPlayer {
             boolean enableCaching,
             @Nullable String cacheKey,
             @Nullable String cacheDirectory,
-            Integer maxSingleFileCacheSize,
-            Integer maxTotalCacheSize,
+            @Nullable Long maxSingleFileCacheSize,
+            @Nullable Long maxTotalCacheSize,
             VideoPlayerOptions options) {
         this.eventChannel = eventChannel;
         this.textureEntry = textureEntry;
         this.options = options;
 
-        ExoPlayer exoPlayer = new ExoPlayer.Builder(context).build();
+        final ExoPlayer exoPlayer = new ExoPlayer.Builder(context).build();
         buildHttpDataSourceFactory(httpHeaders);
         DataSource.Factory dataSourceFactory;
 

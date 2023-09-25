@@ -2,6 +2,7 @@ package io.flutter.plugins.videoplayer;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
+import android.util.Log;
 
 import com.google.android.exoplayer2.upstream.*;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
@@ -18,7 +19,7 @@ class CacheDataSourceFactory implements DataSource.Factory {
 
     private final String cacheKey;
 
-    CacheDataSourceFactory(Context context, @Nullable Integer maxCacheSize, @Nullable Integer maxFileSize, String cacheKey) {
+    CacheDataSourceFactory(Context context, @Nullable Long maxCacheSize, @Nullable Long maxFileSize, String cacheKey) {
         super();
         this.context = context;
         this.maxCacheSize = maxCacheSize != null ? maxCacheSize : 1 * 1024 * 1024 * 1024;
@@ -36,12 +37,12 @@ class CacheDataSourceFactory implements DataSource.Factory {
 
     @Override
     public DataSource createDataSource() {
-        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(context).build();
+        final DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(context).build();
 
         defaultDatasourceFactory = new DefaultDataSource.Factory(this.context, defaultHttpDataSourceFactory);
         defaultDatasourceFactory.setTransferListener(bandwidthMeter);
 
-        SimpleCache simpleCache = SimpleCacheSingleton.getInstance(context, maxCacheSize).simpleCache;
+        final SimpleCache simpleCache = SimpleCacheSingleton.getInstance(context, maxCacheSize).simpleCache;
         final CacheKeyFactory cacheKeyProvider = new CustomCacheKeyProvider(this.cacheKey);
         return new CacheDataSource(simpleCache, defaultDatasourceFactory.createDataSource(),
                 new FileDataSource(), new CacheDataSink(simpleCache, maxFileSize),

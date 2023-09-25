@@ -4,6 +4,7 @@ package io.flutter.plugins.videoplayer;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import android.util.Log;
 
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.danikula.videocache.file.DiskUsage;
@@ -21,9 +22,9 @@ import java.util.Map;
 public class ProxyFactory {
 
     public static HttpProxyCacheServer getProxy(Context context, @Nullable String cacheDirectory,
-                                                Map<String, String> httpHeaders, @Nullable String cacheKey, @Nullable Integer maxTotalCacheSize) {
+            Map<String, String> httpHeaders, @Nullable String cacheKey, @Nullable Long maxTotalCacheSize) {
         final File cacheDir = cacheDirectory != null ? new File(cacheDirectory) : context.getCacheDir();
-        final int totalCacheSize = maxTotalCacheSize != null ? maxTotalCacheSize : 1 * 1024 * 1024 * 1024;
+        final Long totalCacheSize = maxTotalCacheSize != null ? maxTotalCacheSize : 1 * 1024 * 1024 * 1024;
         return new HttpProxyCacheServer.Builder(context)
                 .maxCacheSize(totalCacheSize)
                 .cacheDirectory(cacheDir)
